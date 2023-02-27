@@ -2,6 +2,7 @@
 #include "util.h"
 #include "stdio.h"
 #include "assert.h"
+#define ERROR_RATE_CHECK 0
 
 ErrorRate gen_er() {
   FILE *fp = fopen("config", "r");
@@ -16,6 +17,12 @@ ErrorRate gen_er() {
   er.ins = er.sub + er.ins;
   er.del = er.ins + er.del;
   fclose(fp);
+
+#if ERROR_RATE_CHECK
+  printf("sub rate: %f\n", er.sub);
+  printf("ins rate: %f\n", er.ins);
+  printf("del rate: %f\n", er.del);
+#endif
 
   return er;
 }
@@ -40,16 +47,19 @@ Strand *gen_read(Strand *strand, ErrorRate er) {
   Strand *read = strand_new(READ);
   for (int i = 0; i < strand->len; ) {
     double x = roll();
+#if ERROR_RATE_CHECK
+    printf("read error rate: %f\n", x);
+#endif
 
     if (x < er.sub) {
       strand_append(read, nrand(4));
       i++;
     }
-    else if (x < er.del) {
-      i++;
-    }
     else if (x < er.ins) {
       strand_append(read, nrand(4));
+    }
+    else if (x < er.del) {
+      i++;
     }
     else {
       strand_append(read, strand->seq[i]);

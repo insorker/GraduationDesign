@@ -5,7 +5,7 @@
 
 enum StrandType { STRAND, READ };
 typedef enum StrandType StrandType;
-enum Nucleotide { A, C, G, T };
+enum Nucleotide { A=0, C, G, T };
 typedef enum Nucleotide Nucleotide;
 
 struct Strand {

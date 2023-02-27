@@ -49,28 +49,29 @@ int strand_resize(Strand *s, int len) {
 }
 
 int strand_append(Strand *s, Nucleotide n) {
-  if (s->len + 1 == s->size) {
-    if (strand_resize(s, s->len + 1)) {
+  assert(0 <= n && n <= 3);
+  s->seq[s->len++] = n;
+  if (s->len == s->size) {
+    if (strand_resize(s, s->len)) {
       return 1;
     }
-    s->seq[s->len] = n;
-    return 0;
   }
-  s->seq[s->len++] = n;
   return 0;
 }
 
 void strand_print(Strand *s) {
-  // switch (s->type) {
-  //   case STRAND: printf("strand: "); break;
-  //   case READ:   printf("read: "); break;
-  // }
+  switch (s->type) {
+    case STRAND: printf("strand: "); break;
+    case READ:   printf("read:   "); break;
+  }
+  printf("%3d ", s->len);
   for (int i = 0; i < s->len; i++) {
     switch (s->seq[i]) {
       case A: printf("A"); break;
       case C: printf("C"); break;
       case G: printf("G"); break;
       case T: printf("T"); break;
+      default: printf("#"); break;
     }
   }
   printf("\n");

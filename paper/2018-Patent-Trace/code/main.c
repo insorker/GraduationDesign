@@ -12,7 +12,7 @@ int main() {
   strand_print(raw);
 
   Strand *read;
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 5; i++) {
     read = gen_read(raw, er);
     strand_print(read);
     strand_free(read);
