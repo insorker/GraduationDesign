@@ -1,4 +1,4 @@
-DEPS:=generator.c strand.c util.c -g -fsanitize=address -Wall
+DEPS:=generator.c strand.c util.c trsystem.c -g -fsanitize=address -Wall
 
 all: main
 
