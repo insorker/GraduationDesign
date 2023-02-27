@@ -8,6 +8,7 @@ Strand *strand_new(StrandType type) {
   s->len = 0;
   s->type = type;
   s->size = STRAND_INIT_SIZE;
+  s->state = CREDIBLE;
   s->seq = (Nucleotide *)malloc(sizeof(Nucleotide) * s->size);
   return s;
 }
@@ -22,6 +23,7 @@ Strand *strand_copy(Strand *s) {
   sp->len = s->len;
   sp->type = s->type;
   sp->size = s->size;
+  sp->state = s->state;
   sp->seq = (Nucleotide *)malloc(sizeof(Nucleotide) * s->size);
   for (int i = 0; i < s->len; i++) {
     sp->seq[i] = s->seq[i];
@@ -30,10 +32,7 @@ Strand *strand_copy(Strand *s) {
 }
 
 int strand_resize(Strand *s, int len) {
-  if (s == NULL   ||
-      len < 0     ||
-      len * 2 < 0)
-  {
+  if (s == NULL || len < 0 || len * 2 < 0) {
     return 1;
   }
 
@@ -43,26 +42,56 @@ int strand_resize(Strand *s, int len) {
   while (len >= s->size) {
     if (strand_expand(s)) { assert(0); }
   }
-
   s->len = len;
+
   return 0;
 }
 
 int strand_append(Strand *s, Nucleotide n) {
-  assert(0 <= n && n <= 3);
+  assert(0 <= n && n <= 4);
+
   s->seq[s->len++] = n;
   if (s->len == s->size) {
     if (strand_resize(s, s->len)) {
       return 1;
     }
   }
+
   return 0;
+}
+
+static int min(int a, int b) {
+  if (a <= b)
+    return a;
+  return b;
+}
+
+int strand_cmp_editdistance(Strand *s1, Strand *s2) {
+  int f[200][200] = {};
+  int a[200] = {}, b[200] = {};
+  int n = s1->len, m = s2->len;
+  for (int i = 0; i < n; i++) a[i + 1] = s1->seq[i];
+  for (int i = 0; i < m; i++) b[i + 1] = s2->seq[i];
+
+  for (int i = 0; i <= n; i++) f[i][0] = i;
+  for (int i = 0; i <= m; i++) f[0][i] = i;
+
+  for (int i = 1; i <= n; i++) {
+    for (int j = 1; j <= m; j++) {
+      f[i][j] = min(f[i - 1][j] + 1, f[i][j - 1] + 1);
+      f[i][j] = min(f[i][j], f[i - 1][j - 1] + (a[i] != b[j]));
+    }
+  }
+
+  return f[n][m];
 }
 
 void strand_print(Strand *s) {
   switch (s->type) {
-    case STRAND: printf("strand: "); break;
-    case READ:   printf("read:   "); break;
+    case STRAND:    printf("strand:    "); break;
+    case READ:      printf("read:      "); break;
+    case CONSENSUS: printf("consensus: "); break;
+    default:        printf("errortype: "); break;
   }
   printf("%3d ", s->len);
   for (int i = 0; i < s->len; i++) {
@@ -91,6 +120,7 @@ int strand_expand(Strand *s) {
   free(s->seq);
   s->seq = newSeq;
   s->size = newSize;
+
   return 0;
 }
 
@@ -108,5 +138,6 @@ int strand_shrink(Strand *s) {
   free(s->seq);
   s->seq = newSeq;
   s->size = newSize;
+
   return 0;
 }

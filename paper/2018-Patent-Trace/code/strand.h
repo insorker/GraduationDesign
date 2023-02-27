@@ -2,20 +2,27 @@
 #define STRAND_H
 
 #define STRAND_INIT_SIZE 3
+#define NUCLEOTIDE_NUM   5
 
-enum StrandType { STRAND, READ };
+enum StrandType { STRAND, READ, CONSENSUS };
 typedef enum StrandType StrandType;
-enum Nucleotide { A=0, C, G, T };
+enum Nucleotide { A, C, G, T, N };
 typedef enum Nucleotide Nucleotide;
+enum StrandState { CREDIBLE, VARIANT, OMITTED };
+typedef enum StrandState StrandState;
 
 struct Strand {
 /* public */
-  int len;          // used size
+  int len;            // used size
   StrandType type;
   Nucleotide *seq;
+  StrandState state;  // default: CREDIBLE
 
 /* private */
-  int size;         // total size
+  int size;           // total size
+
+/* TODO 
+  double confidence; */
 };
 typedef struct Strand Strand;
 
@@ -25,6 +32,7 @@ void strand_free(Strand *s);
 Strand *strand_copy(Strand *s);
 int strand_resize(Strand *s, int len);
 int strand_append(Strand *s, Nucleotide n);
+int strand_cmp_editdistance(Strand *s1, Strand *s2);
 void strand_print(Strand *s);
 
 /* private */
