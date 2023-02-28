@@ -91,18 +91,18 @@ void trs_free(TRSystem *trs) {
 }
 
 void trs_run(TRSystem *trs) {
-  Nucleotide baseCallConcensus = A;
+  Nucleotide baseCallConsensus = A;
 
   do {
     // position of comparison
     trwin_consensus(trs->win_cmp, trs->reads, trs->pos_cmp,
         trwin_weight_cmp);
-    baseCallConcensus = *(trs->win_cmp->consensus);
-    if (baseCallConcensus == N) {
+    baseCallConsensus = trs->win_cmp->consensus[0];
+    if (baseCallConsensus == N) {
       break;
     }
     else {
-      strand_append(trs->consensus, baseCallConcensus);
+      strand_append(trs->consensus, baseCallConsensus);
     }
 
     for (int i = 0; i < trs->nreads; i++) {
@@ -110,7 +110,7 @@ void trs_run(TRSystem *trs) {
 
       if (read->state == OMITTED) continue;
       if (read->len <= trs->pos_cmp[i]) read->state = OMITTED;
-      if (read->seq[trs->pos_cmp[i]] != baseCallConcensus) {
+      if (read->seq[trs->pos_cmp[i]] != baseCallConsensus) {
         read->state = VARIANT;
         continue;
       }
@@ -125,54 +125,39 @@ void trs_run(TRSystem *trs) {
 
       if (read->state == OMITTED) continue;
       else if (read->state == VARIANT) {
-        int sub_flag = 1;
-        int del_flag = 1;
-        int ins_flag = 1;
+        Nucleotide *rn;   // read nucleotide
+        Nucleotide *wn;   // win nucleotide
+        int rl;           // read nucleotide length
+        int wl;           // win nucleotide length
+
+        wn = trs->win_lah->consensus;
+        wl = trs->win_lah->ncol;
 
         // substitution
-        for (int j = 0; j < trs->win_lah->ncol; j++) {
-          Nucleotide rn = trs->pos_lah[i] + j >= read->len ?
-            N : read->seq[trs->pos_lah[i] + j];
-          Nucleotide wn = trs->win_lah->consensus[j];
-
-          if (rn != wn) {
-            sub_flag = 0;
-            break;
-          }
-        }
-        if (sub_flag) {
+        rn = read->seq + trs->pos_lah[i];
+        rl = read->len - trs->pos_lah[i];
+        if (nucleotide_cmp(rn, wn, rl, wl) == 0) {
           trs->pos_cmp[i]++;
           trs->pos_lah[i]++;
           continue;
         }
 
         // deletion
-        for (int j = 0; j < trs->win_lah->ncol; j++) {
-          Nucleotide rn = trs->pos_cmp[i] + j >= read->len ?
-            N : read->seq[trs->pos_cmp[i] + j];
-          Nucleotide wn = trs->win_lah->consensus[j];
-
-          if (rn != wn) {
-            del_flag = 0;
-            break;
-          }
-        }
-        if (del_flag) {
+        rn = read->seq + trs->pos_cmp[i];
+        rl = read->len - trs->pos_cmp[i];
+        if (nucleotide_cmp(rn, wn, rl, wl) == 0) {
           continue;
         }
 
         // insertion
-        if (read->seq[trs->pos_lah[i]] == baseCallConcensus) {
-          for (int j = 0; j < trs->win_lah->ncol; j++) {
-            Nucleotide rn = trs->pos_lah[i] + j + 1 >= read->len ?
-              N : read->seq[trs->pos_lah[i] + j + 1];
-            Nucleotide wn = trs->win_lah->consensus[j];
-            if (rn != wn) {
-              ins_flag = 0;
-              break;
-            }
-          }
-          if (ins_flag) {
+        if (trs->pos_lah[i] < read->len &&
+            read->seq[trs->pos_lah[i]] == baseCallConsensus)
+        {
+          rn = read->seq + trs->pos_lah[i] + 1;
+          rl = read->len - trs->pos_lah[i] + 1;
+          if (nucleotide_cmp(rn, wn, rl, wl) == 0) {
+            trs->pos_cmp[i] += 2;
+            trs->pos_lah[i] += 2;
             continue;
           }
         }
@@ -185,7 +170,8 @@ void trs_run(TRSystem *trs) {
         continue;
       }
     }
-  } while (baseCallConcensus != N);
+    // strand_print(trs->consensus);
+  } while (baseCallConsensus != N);
 }
 
 void trs_print(TRSystem *trs) {

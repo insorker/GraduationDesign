@@ -18,6 +18,10 @@ void strand_free(Strand *s) {
   free(s);
 }
 
+void strand_clear(Strand *s) {
+  strand_resize(s, 0);
+}
+
 Strand *strand_copy(Strand *s) {
   Strand *sp = (Strand *)malloc(sizeof(Strand));
   sp->len = s->len;
@@ -104,6 +108,19 @@ void strand_print(Strand *s) {
     }
   }
   printf("\n");
+}
+
+int nucleotide_cmp(Nucleotide *n1, Nucleotide *n2, int l1, int l2) {
+  for (int i = 0; i < l1 || i < l2; i++) {
+    Nucleotide a = i < l1 ? n1[i] : N;
+    Nucleotide b = i < l2 ? n2[i] : N;
+
+    if (a != b) {
+      return 1;
+    }
+  }
+  
+  return 0;
 }
 
 int strand_expand(Strand *s) {
