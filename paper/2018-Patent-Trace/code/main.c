@@ -23,8 +23,9 @@ int main() {
 
   TRSystem *trs = trs_new(trc, reads);
   trs_run(trs);
+  printf("\n");
   trs_print(trs);
-  printf("%d\n", strand_cmp_editdistance(raw, trs->consensus));
+  printf("edit distance: %d\n", strand_cmp_editdistance(raw, trs->consensus));
 
   trs_free(trs);
   strand_free(raw);
