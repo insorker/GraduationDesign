@@ -1,6 +1,13 @@
+--- 大TODO ---
+0. 检查是否真的做出来了
 1. forward and backward
-2. better util
-3. trsystem.h: weight_cmp()函数如何判断权重
-4. 不能识别的错误类型
+2. trsystem.h: weight_cmp()函数如何判断权重
+3. 不能识别的错误类型
   - 比如，连续发生两次替换错误，程序会直接抛弃整条 read
   - 这个问题的解释在论文中[0062]和[0063]中有所阐释，这里采用直接抛弃的方法
+4. 数据导出
+
+--- 小TODO ---
+1. better util, like min()
+2. 命名空间
+3. 坏了，刚刚想到一个，然后一打岔忘了
