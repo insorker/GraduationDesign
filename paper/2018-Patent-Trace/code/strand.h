@@ -36,6 +36,7 @@ int strand_append(Strand *s, Nucleotide n);
 int strand_cmp_editdistance(Strand *s1, Strand *s2);
 void strand_print(Strand *s);
 
+void nucleotide_print(Nucleotide *n, int len);
 int nucleotide_cmp(Nucleotide *n1, Nucleotide *n2, int l1, int l2);
 
 /* private */

@@ -17,6 +17,7 @@ int main() {
   strand_print(raw);
   for (int i = 0; i < trc.num; i++) {
     reads[i] = gen_read(raw, trc.er);
+    printf("%2d ", i);
     strand_print(reads[i]);
   }
 

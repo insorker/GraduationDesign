@@ -1,6 +1,7 @@
 #include "trsystem.h"
 #include <malloc.h>
 #include <string.h>
+#define TRS_RUN_TEST 1
 
 TRWindow *trwin_new(const int nrow, const int ncol) {
   TRWindow *win =
@@ -75,7 +76,7 @@ TRSystem *trs_new(TRConfig trc, Strand *reads[]) {
     trs->pos_lah[i] = 1;
   }
   trs->win_cmp = trwin_new(trc.num, 1);
-  trs->win_lah = trwin_new(trc.num, trc.len);
+  trs->win_lah = trwin_new(trc.num, trc.width);
   trs->consensus = strand_new(CONSENSUS);
   
   return trs;
@@ -109,9 +110,15 @@ void trs_run(TRSystem *trs) {
       Strand *read = trs->reads[i];
 
       if (read->state == OMITTED) continue;
-      if (read->len <= trs->pos_cmp[i]) read->state = OMITTED;
+      if (read->len <= trs->pos_cmp[i]) {
+        read->state = OMITTED;
+        continue;
+      }
       if (read->seq[trs->pos_cmp[i]] != baseCallConsensus) {
         read->state = VARIANT;
+#if TRS_RUN_TEST
+      printf("Variant read %2d at %3d\n", i, trs->pos_cmp[i]);
+#endif
         continue;
       }
     }
@@ -119,6 +126,9 @@ void trs_run(TRSystem *trs) {
     // look ahead window
     trwin_consensus(trs->win_lah, trs->reads, trs->pos_lah,
         trwin_weight_cmp);
+// #if TRS_RUN_TEST
+//     nucleotide_print(trs->win_lah->consensus, trs->win_lah->ncol);
+// #endif
 
     for (int i = 0; i < trs->nreads; i++) {
       Strand *read = trs->reads[i];
@@ -135,17 +145,30 @@ void trs_run(TRSystem *trs) {
 
         // substitution
         rn = read->seq + trs->pos_lah[i];
-        rl = read->len - trs->pos_lah[i];
+        rl = read->len - trs->pos_lah[i] < wl ?
+          read->len - trs->pos_lah[i] : wl;
+// #if TRS_RUN_TEST
+//     nucleotide_print(rn, rl);
+// #endif
         if (nucleotide_cmp(rn, wn, rl, wl) == 0) {
           trs->pos_cmp[i]++;
           trs->pos_lah[i]++;
+          read->state = CREDIBLE;
+#if TRS_RUN_TEST
+          printf("%2d: sub\n", i);
+#endif
           continue;
         }
 
         // deletion
         rn = read->seq + trs->pos_cmp[i];
-        rl = read->len - trs->pos_cmp[i];
+        rl = read->len - trs->pos_cmp[i] < wl ?
+          read->len - trs->pos_cmp[i] : wl;
         if (nucleotide_cmp(rn, wn, rl, wl) == 0) {
+          read->state = CREDIBLE;
+#if TRS_RUN_TEST
+          printf("%2d: del\n", i);
+#endif
           continue;
         }
 
@@ -154,13 +177,22 @@ void trs_run(TRSystem *trs) {
             read->seq[trs->pos_lah[i]] == baseCallConsensus)
         {
           rn = read->seq + trs->pos_lah[i] + 1;
-          rl = read->len - trs->pos_lah[i] + 1;
+          rl = read->len - trs->pos_lah[i] + 1 ?
+            read->len - trs->pos_lah[i] + 1 : wl;
           if (nucleotide_cmp(rn, wn, rl, wl) == 0) {
             trs->pos_cmp[i] += 2;
             trs->pos_lah[i] += 2;
+            read->state = CREDIBLE;
+#if TRS_RUN_TEST
+          printf("%2d: ins\n", i);
+#endif
             continue;
           }
         }
+
+#if TRS_RUN_TEST
+          printf("%2d: omitted\n", i);
+#endif
 
         read->state = OMITTED;
       }

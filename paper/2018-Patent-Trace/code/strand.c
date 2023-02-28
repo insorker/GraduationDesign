@@ -110,6 +110,19 @@ void strand_print(Strand *s) {
   printf("\n");
 }
 
+void nucleotide_print(Nucleotide *n, int len) {
+  for (int i = 0; i < len; i++) {
+    switch (n[i]) {
+      case A: printf("A"); break;
+      case C: printf("C"); break;
+      case G: printf("G"); break;
+      case T: printf("T"); break;
+      default: printf("#"); break;
+    }
+  }
+  printf("\n");
+}
+
 int nucleotide_cmp(Nucleotide *n1, Nucleotide *n2, int l1, int l2) {
   for (int i = 0; i < l1 || i < l2; i++) {
     Nucleotide a = i < l1 ? n1[i] : N;
