@@ -1,6 +1,0 @@
-substitution      0.08
-deletion          0.01
-insertion         0.01
-number_of_reads   10
-length_of_strand  100
-width_of_look-ahead_window 3

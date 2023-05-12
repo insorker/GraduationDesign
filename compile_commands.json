@@ -1,0 +1,114 @@
+[
+  {
+    "arguments": [
+      "/usr/lib/ccache/gcc",
+      "-c",
+      "-I./strand",
+      "-I./sequencer",
+      "-I./tr_system",
+      "-g",
+      "-fsanitize=address",
+      "-Wall",
+      "-Werror",
+      "test/test_strand.c"
+    ],
+    "directory": "/mnt/e/GraduationDesign/code",
+    "file": "/mnt/e/GraduationDesign/code/test/test_strand.c"
+  },
+  {
+    "arguments": [
+      "/usr/lib/ccache/gcc",
+      "-c",
+      "-I./strand",
+      "-I./sequencer",
+      "-I./tr_system",
+      "-g",
+      "-fsanitize=address",
+      "-Wall",
+      "-Werror",
+      "strand/nucleotide.c"
+    ],
+    "directory": "/mnt/e/GraduationDesign/code",
+    "file": "/mnt/e/GraduationDesign/code/strand/nucleotide.c"
+  },
+  {
+    "arguments": [
+      "/usr/lib/ccache/gcc",
+      "-c",
+      "-I./strand",
+      "-I./sequencer",
+      "-I./tr_system",
+      "-g",
+      "-fsanitize=address",
+      "-Wall",
+      "-Werror",
+      "strand/strand.c"
+    ],
+    "directory": "/mnt/e/GraduationDesign/code",
+    "file": "/mnt/e/GraduationDesign/code/strand/strand.c"
+  },
+  {
+    "arguments": [
+      "/usr/lib/ccache/gcc",
+      "-c",
+      "-I./strand",
+      "-I./sequencer",
+      "-I./tr_system",
+      "-g",
+      "-fsanitize=address",
+      "-Wall",
+      "-Werror",
+      "sequencer/read.c"
+    ],
+    "directory": "/mnt/e/GraduationDesign/code",
+    "file": "/mnt/e/GraduationDesign/code/sequencer/read.c"
+  },
+  {
+    "arguments": [
+      "/usr/lib/ccache/gcc",
+      "-c",
+      "-I./strand",
+      "-I./sequencer",
+      "-I./tr_system",
+      "-g",
+      "-fsanitize=address",
+      "-Wall",
+      "-Werror",
+      "sequencer/sequencer.c"
+    ],
+    "directory": "/mnt/e/GraduationDesign/code",
+    "file": "/mnt/e/GraduationDesign/code/sequencer/sequencer.c"
+  },
+  {
+    "arguments": [
+      "/usr/lib/ccache/gcc",
+      "-c",
+      "-I./strand",
+      "-I./sequencer",
+      "-I./tr_system",
+      "-g",
+      "-fsanitize=address",
+      "-Wall",
+      "-Werror",
+      "tr_system/tr_config.c"
+    ],
+    "directory": "/mnt/e/GraduationDesign/code",
+    "file": "/mnt/e/GraduationDesign/code/tr_system/tr_config.c"
+  },
+  {
+    "arguments": [
+      "/usr/lib/ccache/gcc",
+      "-c",
+      "-I./strand",
+      "-I./sequencer",
+      "-I./tr_system",
+      "-g",
+      "-fsanitize=address",
+      "-Wall",
+      "-Werror",
+      "tr_system/tr_window.c"
+    ],
+    "directory": "/mnt/e/GraduationDesign/code",
+    "file": "/mnt/e/GraduationDesign/code/tr_system/tr_window.c"
+  }
+]
