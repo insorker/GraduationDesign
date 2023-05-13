@@ -10,6 +10,9 @@ typedef enum TRReadState {
 } TRReadState;
 
 typedef struct TRRead {
+/* super */
+  Read *super;
+
 /* public extends */
   int         (*size)(struct TRRead *);
   Nucleotide  (*at)(struct TRRead *, int index);
@@ -19,9 +22,6 @@ typedef struct TRRead {
 
 /* public */
   TRReadState state;
-
-/* private */
-  Read *super;
 
 } TRRead;
 

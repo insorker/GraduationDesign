@@ -3,6 +3,7 @@
     "arguments": [
       "/usr/lib/ccache/gcc",
       "-c",
+      "-I./vector",
       "-I./strand",
       "-I./sequencer",
       "-I./tr_system",
@@ -10,15 +11,33 @@
       "-fsanitize=address",
       "-Wall",
       "-Werror",
-      "test/test_strand.c"
+      "test/test_vector.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
-    "file": "/mnt/e/GraduationDesign/code/test/test_strand.c"
+    "file": "/mnt/e/GraduationDesign/code/test/test_vector.c"
   },
   {
     "arguments": [
       "/usr/lib/ccache/gcc",
       "-c",
+      "-I./vector",
+      "-I./strand",
+      "-I./sequencer",
+      "-I./tr_system",
+      "-g",
+      "-fsanitize=address",
+      "-Wall",
+      "-Werror",
+      "vector/vector.c"
+    ],
+    "directory": "/mnt/e/GraduationDesign/code",
+    "file": "/mnt/e/GraduationDesign/code/vector/vector.c"
+  },
+  {
+    "arguments": [
+      "/usr/lib/ccache/gcc",
+      "-c",
+      "-I./vector",
       "-I./strand",
       "-I./sequencer",
       "-I./tr_system",
@@ -35,6 +54,7 @@
     "arguments": [
       "/usr/lib/ccache/gcc",
       "-c",
+      "-I./vector",
       "-I./strand",
       "-I./sequencer",
       "-I./tr_system",
@@ -51,6 +71,7 @@
     "arguments": [
       "/usr/lib/ccache/gcc",
       "-c",
+      "-I./vector",
       "-I./strand",
       "-I./sequencer",
       "-I./tr_system",
@@ -67,6 +88,7 @@
     "arguments": [
       "/usr/lib/ccache/gcc",
       "-c",
+      "-I./vector",
       "-I./strand",
       "-I./sequencer",
       "-I./tr_system",
@@ -83,6 +105,7 @@
     "arguments": [
       "/usr/lib/ccache/gcc",
       "-c",
+      "-I./vector",
       "-I./strand",
       "-I./sequencer",
       "-I./tr_system",
@@ -99,6 +122,41 @@
     "arguments": [
       "/usr/lib/ccache/gcc",
       "-c",
+      "-I./vector",
+      "-I./strand",
+      "-I./sequencer",
+      "-I./tr_system",
+      "-g",
+      "-fsanitize=address",
+      "-Wall",
+      "-Werror",
+      "tr_system/tr_read.c"
+    ],
+    "directory": "/mnt/e/GraduationDesign/code",
+    "file": "/mnt/e/GraduationDesign/code/tr_system/tr_read.c"
+  },
+  {
+    "arguments": [
+      "/usr/lib/ccache/gcc",
+      "-c",
+      "-I./vector",
+      "-I./strand",
+      "-I./sequencer",
+      "-I./tr_system",
+      "-g",
+      "-fsanitize=address",
+      "-Wall",
+      "-Werror",
+      "tr_system/tr_system.c"
+    ],
+    "directory": "/mnt/e/GraduationDesign/code",
+    "file": "/mnt/e/GraduationDesign/code/tr_system/tr_system.c"
+  },
+  {
+    "arguments": [
+      "/usr/lib/ccache/gcc",
+      "-c",
+      "-I./vector",
       "-I./strand",
       "-I./sequencer",
       "-I./tr_system",

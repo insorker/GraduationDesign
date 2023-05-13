@@ -1,6 +1,7 @@
 #ifndef STRAND_H
 #define STRAND_H
 
+#include "vector.h"
 #include "nucleotide.h"
 
 typedef struct Strand {
@@ -12,19 +13,15 @@ typedef struct Strand {
   void        (*clear)(struct Strand *);
 
 /* private */
-  int length;
-  int _size;
-  Nucleotide *items;
-
-  void (*capacity)(struct Strand *, int nlength);
-  void (*expand)(struct Strand *);
-  void (*shrink)(struct Strand *);
+  Vector *_nucleotide;
 
 } Strand;
 
+/* friend */
+int compare_strand(Strand *, Strand *);
+
 Strand *new_strand();
 void free_strand(Strand *);
-int  compare_strand(Strand *, Strand *);
 void print_strand(Strand *);
 
 #endif

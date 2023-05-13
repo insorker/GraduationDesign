@@ -23,7 +23,7 @@ void free_sequencer(Sequencer *c) {
 Read *sequencer_process(Sequencer *seq, Strand *s) {
   Read *read = new_read();
 
-  for (int i = 0; i < s->length; i++) {
+  for (int i = 0; i < s->size(s); i++) {
     double rate = (double)rand() / RAND_MAX;
 
     // substitution
@@ -35,18 +35,22 @@ Read *sequencer_process(Sequencer *seq, Strand *s) {
       }
 
       read->push_back(read, n);
+      read->error->push_back(read->error, READ_ERROR_SUB);
     }
     // deletion
     else if (seq->er.del >= rate) {
+      read->error->push_back(read->error, READ_ERROR_DEL);
       continue;
     }
     // insertion
     else if (seq->er.ins >= rate) {
+      read->error->push_back(read->error, READ_ERROR_INS);
       read->push_back(read, rand_nucleotide());
       i--;
     }
     // no error
     else {
+      read->error->push_back(read->error, READ_ERROR_NONE);
       read->push_back(read, s->at(s, i));
     }
   }

@@ -132,7 +132,7 @@ Strand *tr_system_get_consensus(TRSystem *trs) {
     Strand *cmp_consensus = new_strand();
 
     cmp_consensus->push_back(cmp_consensus, single_concensus);
-    for (int i = 0; i < win_consensus->length - 1; i++) {
+    for (int i = 0; i < win_consensus->size(win_consensus) - 1; i++) {
       cmp_consensus->push_back(
           cmp_consensus,
           win_consensus->at(

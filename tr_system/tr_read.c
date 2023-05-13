@@ -8,10 +8,11 @@ void        tr_read_push_back(TRRead *, Nucleotide n);
 Nucleotide  tr_read_pop_back(TRRead *);
 void        tr_read_clear(TRRead *);
 
+
 TRRead *new_tr_read() {
   TRRead *tr_read = (TRRead *)malloc(sizeof(TRRead));
 
-/* private */
+/* super */
   tr_read->super = new_read();
 
 /* public extends */
@@ -44,6 +45,7 @@ void print_tr_read(TRRead *tr_read) {
   printf("TRRead: \n");
   printf("- "), print_read(tr_read->super);
 }
+
 
 int tr_read_size(TRRead *tr_read) {
   return tr_read->super->size(tr_read->super);

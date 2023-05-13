@@ -41,7 +41,7 @@ void test_strand_size() {
     s->push_back(s, NUCLEOTIDE_A);
   }
   print_strand(s);
-  printf("%d is equal to 100\n", s->length);
+  printf("%d is equal to 100\n", s->size(s));
 
   free_strand(s);
 
