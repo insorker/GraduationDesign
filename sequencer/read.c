@@ -29,6 +29,19 @@ Read *new_read() {
   return read;
 }
 
+Read *copy_read(Read *read) {
+  Read *copy = new_read();
+
+  for (int i = 0; i < read->size(read); i++) {
+    copy->push_back(copy, read->at(read, i));
+  }
+  for (int i = 0; i < read->error->size(read->error); i++) {
+    copy->error->push_back(copy->error, read->error->at(read->error, i));
+  }
+
+  return copy;
+}
+
 void free_read(Read *read) {
   free_strand(read->super);
   free_vector(read->error);

@@ -28,6 +28,7 @@ typedef struct Read {
 } Read;
 
 Read *new_read();
+Read *copy_read(Read *);
 void free_read(Read *);
 void print_read(Read *);
 void print_read_error(Read *);
