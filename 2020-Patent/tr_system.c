@@ -62,7 +62,7 @@ Strand *tr_system_get_consensus(TRSystem *trs) {
   int *pcmp = (int *)malloc(trs->nreads * sizeof(int));
 
   for (int i = 0; i < trs->nreads; i++) {
-    trs->reads[i]->state = TR_READ_STATE_CREDIBLE;
+    trs->reads[i]->state = TR_READ_STATE_ACTIVE;
   }
   for (int i = 0; i < trs->nreads; i++) {
     pcmp[i] = 0;
@@ -74,17 +74,61 @@ Strand *tr_system_get_consensus(TRSystem *trs) {
     for (int i = 0; i < trs->nreads; i++) {
       TRRead *read = trs->reads[i];
 
-      if (read->state == TR_READ_STATE_OMMITED) {
+      if (read->state == TR_READ_STATE_OMITTED) {
         nreads_left--;
       }
       else if (pcmp[i] >= read->size(read)) {
-        read->state = TR_READ_STATE_OMMITED;
+        read->state = TR_READ_STATE_OMITTED;
         nreads_left--;
       }
-      else if (read->state != TR_READ_STATE_OMMITED) {
-        read->state = TR_READ_STATE_CREDIBLE;
+      // else if (read->state == TR_READ_STATE_INACTIVE) {
+      //   read->state = TR_READ_STATE_OMITTED;
+      //   nreads_left--;
+      // }
+      else if (read->state == TR_READ_STATE_INACTIVE) {
+        if (--(read->delay) == 0) {
+          int pcmp_tmp = 0;
+          for (int j = pcmp[i] + TR_READ_DELAY; j <= pcmp[i] + TR_READ_SEARCH; j++) {
+            if (j < read->size(read)) {
+              int fault = 0, min_fault = 10000;
+              for (int k = 0; k < TR_READ_DELAY; k++) {
+                if (consensus->at(consensus, consensus->size(consensus) - 1 - k) !=
+                    read->at(read, j - k))
+                {
+                  fault++;
+                }
+              }
+              if (fault < min_fault && fault <= 1) {
+                min_fault = fault;
+                pcmp_tmp = j;
+              }
+            }
+          }
+          if (pcmp_tmp != 0) {
+            // printf("%d\n", pcmp[i]);
+            pcmp[i] = pcmp_tmp + 1;
+            read->state = TR_READ_STATE_ACTIVE;
+            // print_strand(consensus);
+            // print_tr_read(read);
+            // printf("%d\n\n", pcmp[i]);
+          }
+          else {
+            read->state = TR_READ_STATE_OMITTED;
+            nreads_left--;
+          }
+        }
+      }
+      else if (read->state != TR_READ_STATE_OMITTED)
+      {
+        read->state = TR_READ_STATE_ACTIVE;
       }
     }
+    // for (int j = 0; j < trs->nreads; j++) {
+    //   if (trs->reads[j]->state != TR_READ_STATE_OMITTED) {
+    //     printf("%d ", pcmp[j]);
+    //   }
+    // }
+    // printf("\n");
     if (nreads_left == 0) {
       break;
     }
@@ -99,7 +143,7 @@ Strand *tr_system_get_consensus(TRSystem *trs) {
     for (int i = 0; i < trs->nreads; i++) {
       TRRead *read = trs->reads[i];
 
-      if (read->state != TR_READ_STATE_OMMITED) {
+      if (read->state != TR_READ_STATE_OMITTED && read->state != TR_READ_STATE_INACTIVE) {
         Nucleotide n = read->at(read, pcmp[i]);
 
         weight[n]++;
@@ -119,7 +163,7 @@ Strand *tr_system_get_consensus(TRSystem *trs) {
     for (int i = 0; i < trs->nreads; i++) {
       TRRead *read = trs->reads[i];
 
-      if (read->state != TR_READ_STATE_OMMITED) {
+      if (read->state != TR_READ_STATE_OMITTED && read->state != TR_READ_STATE_INACTIVE) {
         Nucleotide n = read->at(read, pcmp[i]);
 
         if (n != single_concensus) {
@@ -144,7 +188,7 @@ Strand *tr_system_get_consensus(TRSystem *trs) {
     for (int i = 0; i < trs->nreads; i++) {
       TRRead *read = trs->reads[i];
 
-      if (read->state == TR_READ_STATE_CREDIBLE) {
+      if (read->state == TR_READ_STATE_ACTIVE) {
         pcmp[i]++;
       }
       else if (read->state == TR_READ_STATE_VARIANT) {
@@ -182,7 +226,8 @@ Strand *tr_system_get_consensus(TRSystem *trs) {
           pcmp[i] += 2;
         }
         else {
-          read->state = TR_READ_STATE_OMMITED;
+          read->state = TR_READ_STATE_INACTIVE;
+          read->delay = TR_READ_DELAY;
         }
 
         free_strand(read_slice_win);
