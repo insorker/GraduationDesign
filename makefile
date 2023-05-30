@@ -34,5 +34,13 @@ test_2018:
 test_2020:
 	${CC} ${CFLAGS} test/test_2020_Patent.c ${SOURCES} ${INC_DIRS_2020_Patent} ${SOURCES_2020_Patent}
 
+testbench: edit_distance
+
+edit_distance_18:
+	${CC} ${CFLAGS} testbench/edit_distance.c ${SOURCES} ${INC_DIRS_2018_Patent} ${SOURCES_2018_Patent}
+
+edit_distance_20:
+	${CC} ${CFLAGS} testbench/edit_distance.c ${SOURCES} ${INC_DIRS_2020_Patent} ${SOURCES_2020_Patent}
+
 clean:
 	rm -f *.out

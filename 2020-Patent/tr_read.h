@@ -3,7 +3,7 @@
 
 #include "read.h"
 
-#define TR_READ_DELAY 8
+#define TR_READ_DELAY 10
 #define TR_READ_SEARCH 20
 
 typedef enum TRReadState {

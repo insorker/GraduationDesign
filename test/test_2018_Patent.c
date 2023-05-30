@@ -23,7 +23,7 @@ Strand *test_create_rand_strand(int length) {
 void test_tr_system_consensus() {
   PRINT_TEST_FUNC();
 
-  Sequencer *seq = new_sequencer(ser_mid);
+  Sequencer *seq = new_sequencer(ser_sm);
   Strand *s = test_create_rand_strand(60);
   int nreads = 20;
   Read *reads[20];
@@ -32,10 +32,29 @@ void test_tr_system_consensus() {
   printf("original strand:\n");
   printf("- "), print_strand(s);
   printf("\n");
+
+  int err_read_cnt = 0;
   for (int i = 0; i < nreads; i++) {
     reads[i] = seq->process(seq, s);
     // print_read(reads[i]);
+    Vector *err = reads[i]->error;
+    for (int j = 0; j < err->size(err) - 2; j++) {
+      if ((err->at(err, j) != READ_ERROR_NONE &&
+          err->at(err, j + 1) != READ_ERROR_NONE) ||
+          (err->at(err, j) != READ_ERROR_NONE &&
+          err->at(err, j + 2) != READ_ERROR_NONE) ||
+          (err->at(err, j + 1) != READ_ERROR_NONE &&
+          err->at(err, j + 2) != READ_ERROR_NONE) ||
+          (err->at(err, j) != READ_ERROR_NONE &&
+          err->at(err, j + 1) != READ_ERROR_NONE &&
+          err->at(err, j + 2) != READ_ERROR_NONE))
+      {
+        err_read_cnt++;
+        break;
+      }
+    }
   }
+  printf("%d \n", err_read_cnt);
   // printf("\n");
 
   trs->set_reads(trs, reads, nreads);

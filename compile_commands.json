@@ -6,15 +6,15 @@
       "-I./vector",
       "-I./strand",
       "-I./sequencer",
-      "-I./tr_system",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
-      "test/test_vector.c"
+      "-I./2018-Patent",
+      "test/test_2018_Patent.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
-    "file": "/mnt/e/GraduationDesign/code/test/test_vector.c"
+    "file": "/mnt/e/GraduationDesign/code/test/test_2018_Patent.c"
   },
   {
     "arguments": [
@@ -23,11 +23,11 @@
       "-I./vector",
       "-I./strand",
       "-I./sequencer",
-      "-I./tr_system",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
+      "-I./2018-Patent",
       "vector/vector.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
@@ -40,11 +40,11 @@
       "-I./vector",
       "-I./strand",
       "-I./sequencer",
-      "-I./tr_system",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
+      "-I./2018-Patent",
       "strand/nucleotide.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
@@ -57,11 +57,11 @@
       "-I./vector",
       "-I./strand",
       "-I./sequencer",
-      "-I./tr_system",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
+      "-I./2018-Patent",
       "strand/strand.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
@@ -74,11 +74,11 @@
       "-I./vector",
       "-I./strand",
       "-I./sequencer",
-      "-I./tr_system",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
+      "-I./2018-Patent",
       "sequencer/read.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
@@ -91,11 +91,11 @@
       "-I./vector",
       "-I./strand",
       "-I./sequencer",
-      "-I./tr_system",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
+      "-I./2018-Patent",
       "sequencer/sequencer.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
@@ -108,15 +108,15 @@
       "-I./vector",
       "-I./strand",
       "-I./sequencer",
-      "-I./tr_system",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
-      "tr_system/tr_config.c"
+      "-I./2018-Patent",
+      "2018-Patent/tr_read.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
-    "file": "/mnt/e/GraduationDesign/code/tr_system/tr_config.c"
+    "file": "/mnt/e/GraduationDesign/code/2018-Patent/tr_read.c"
   },
   {
     "arguments": [
@@ -125,15 +125,15 @@
       "-I./vector",
       "-I./strand",
       "-I./sequencer",
-      "-I./tr_system",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
-      "tr_system/tr_read.c"
+      "-I./2018-Patent",
+      "2018-Patent/tr_system.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
-    "file": "/mnt/e/GraduationDesign/code/tr_system/tr_read.c"
+    "file": "/mnt/e/GraduationDesign/code/2018-Patent/tr_system.c"
   },
   {
     "arguments": [
@@ -142,31 +142,14 @@
       "-I./vector",
       "-I./strand",
       "-I./sequencer",
-      "-I./tr_system",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
-      "tr_system/tr_system.c"
+      "-I./2018-Patent",
+      "2018-Patent/tr_window.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
-    "file": "/mnt/e/GraduationDesign/code/tr_system/tr_system.c"
-  },
-  {
-    "arguments": [
-      "/usr/lib/ccache/gcc",
-      "-c",
-      "-I./vector",
-      "-I./strand",
-      "-I./sequencer",
-      "-I./tr_system",
-      "-g",
-      "-fsanitize=address",
-      "-Wall",
-      "-Werror",
-      "tr_system/tr_window.c"
-    ],
-    "directory": "/mnt/e/GraduationDesign/code",
-    "file": "/mnt/e/GraduationDesign/code/tr_system/tr_window.c"
+    "file": "/mnt/e/GraduationDesign/code/2018-Patent/tr_window.c"
   }
 ]

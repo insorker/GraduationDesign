@@ -66,6 +66,7 @@ void print_read_error(Read *read) {
       case READ_ERROR_INS:  printf("i"); break;
     }
   }
+  printf("\n");
 }
 
 

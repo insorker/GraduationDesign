@@ -33,10 +33,11 @@ Strand *tr_window_get_consensus(
 
   for (int i = 0; i < trw->ncol; i++) {
     double weight[NUCLEOTIDE_SIZE] = {};
+    Nucleotide n_consensus = 0;
     Nucleotide weight_max = 0;
 
     for (int j = 0; j < trw->nrow; j++) {
-      int p = reads_pcmp[j] + i;
+      int p = reads_pcmp[j] + 1 + i;
 
       if (reads[j]->state == TR_READ_STATE_CREDIBLE) {
         if (reads[j]->size(reads[j]) <= p) {
@@ -55,9 +56,11 @@ Strand *tr_window_get_consensus(
 
     for (int j = 0; j < NUCLEOTIDE_SIZE; j++) {
       if (weight[j] > weight_max) {
-        consensus->push_back(consensus, j);
+        n_consensus = j;
+        weight_max = weight[j];
       }
     }
+    consensus->push_back(consensus, n_consensus);
   }
 
   return consensus;

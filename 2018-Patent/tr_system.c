@@ -7,7 +7,7 @@ void    tr_system_set_reads(TRSystem *, Read *reads[], int nreads);
 Strand *tr_system_get_consensus(TRSystem *);
 
 /* private */
-void        tr_system_set_window(TRSystem *);
+void    tr_system_set_window(TRSystem *);
 
 
 TRSystem *new_tr_system(int trw_width) {
@@ -153,7 +153,6 @@ Strand *tr_system_get_consensus(TRSystem *trs) {
         // get read slice start from comparison
         Strand *read_slice_cmp = new_strand();
 
-
         for (int j = 0; j < trs->trw_width; j++) {
           if (pcmp[i] + 1 + j < read->size(read)) {
             read_slice_win->push_back(read_slice_win, read->at(read, pcmp[i] + 1 + j));
@@ -183,6 +182,18 @@ Strand *tr_system_get_consensus(TRSystem *trs) {
         }
         else {
           read->state = TR_READ_STATE_OMMITED;
+          // printf("%d\n", pcmp[i]);
+          // print_tr_read(read);
+          // printf("- "),
+          //   print_strand(consensus);
+          // printf("- win-c"),
+          //   print_strand(win_consensus);
+          // printf("- cmp-c"),
+          //   print_strand(win_consensus);
+          // printf("- win-r"),
+          //   print_strand(read_slice_win);
+          // printf("- cmp-r"),
+          //   print_strand(read_slice_cmp);
         }
 
         free_strand(read_slice_win);

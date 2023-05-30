@@ -14,7 +14,8 @@ typedef struct Sequencer {
 /* public */
   struct SequencerErrorRate er;
 
-  Read *(*process)(struct Sequencer *c, Strand *s);
+  void (*set_error_rate)(struct Sequencer *, SequencerErrorRate);
+  Read *(*process)(struct Sequencer *, Strand *s);
 
 } Sequencer;
 

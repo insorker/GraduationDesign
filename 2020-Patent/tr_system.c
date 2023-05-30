@@ -7,7 +7,7 @@ void    tr_system_set_reads(TRSystem *, Read *reads[], int nreads);
 Strand *tr_system_get_consensus(TRSystem *);
 
 /* private */
-void        tr_system_set_window(TRSystem *);
+void    tr_system_set_window(TRSystem *);
 
 
 TRSystem *new_tr_system(int trw_width) {
@@ -98,19 +98,20 @@ Strand *tr_system_get_consensus(TRSystem *trs) {
                   fault++;
                 }
               }
-              if (fault < min_fault && fault <= 1) {
+              if (fault < min_fault && fault <= TR_READ_DELAY / 5) {
                 min_fault = fault;
                 pcmp_tmp = j;
               }
             }
           }
           if (pcmp_tmp != 0) {
-            // printf("%d\n", pcmp[i]);
+            // printf("\nset active %d\n", i);
+            // printf("%d ", pcmp[i]);
             pcmp[i] = pcmp_tmp + 1;
+            // printf("%d\n", pcmp[i]);
             read->state = TR_READ_STATE_ACTIVE;
             // print_strand(consensus);
             // print_tr_read(read);
-            // printf("%d\n\n", pcmp[i]);
           }
           else {
             read->state = TR_READ_STATE_OMITTED;
@@ -228,6 +229,19 @@ Strand *tr_system_get_consensus(TRSystem *trs) {
         else {
           read->state = TR_READ_STATE_INACTIVE;
           read->delay = TR_READ_DELAY;
+          // printf("\nset inactive %d\n", i);
+          // printf("%d\n", pcmp[i]);
+          // print_tr_read(read);
+          // printf("- "),
+          //   print_strand(consensus);
+          // printf("- win-c"),
+          //   print_strand(win_consensus);
+          // printf("- cmp-c"),
+          //   print_strand(win_consensus);
+          // printf("- win-r"),
+          //   print_strand(read_slice_win);
+          // printf("- cmp-r"),
+          //   print_strand(read_slice_cmp);
         }
 
         free_strand(read_slice_win);

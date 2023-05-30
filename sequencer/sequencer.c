@@ -2,6 +2,7 @@
 #include <malloc.h>
 #include <stdlib.h>
 
+void sequencer_set_error_rate(Sequencer *seq, SequencerErrorRate er);
 Read *sequencer_process(Sequencer *seq, Strand *s);
 
 Sequencer *new_sequencer(SequencerErrorRate er) {
@@ -11,6 +12,7 @@ Sequencer *new_sequencer(SequencerErrorRate er) {
   seq->er.del = er.del + seq->er.sub;
   seq->er.ins = er.ins + seq->er.del;
 
+  seq->set_error_rate = sequencer_set_error_rate;
   seq->process = sequencer_process;
 
   return seq;
@@ -18,6 +20,12 @@ Sequencer *new_sequencer(SequencerErrorRate er) {
 
 void free_sequencer(Sequencer *c) {
   free(c);
+}
+
+void sequencer_set_error_rate(Sequencer *seq, SequencerErrorRate er) {
+  seq->er.sub = er.sub;
+  seq->er.del = er.del + seq->er.sub;
+  seq->er.ins = er.ins + seq->er.del;
 }
 
 Read *sequencer_process(Sequencer *seq, Strand *s) {
