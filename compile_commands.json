@@ -3,48 +3,33 @@
     "arguments": [
       "/usr/lib/ccache/gcc",
       "-c",
-      "-I./vector",
       "-I./strand",
       "-I./sequencer",
+      "-I./tr_system",
+      "-I./KiteSTL/inc",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
-      "-I./2018-Patent",
-      "test/test_2018_Patent.c"
+      "-Wl,-rpath,./KiteSTL/lib",
+      "test/test_tr_system.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
-    "file": "/mnt/e/GraduationDesign/code/test/test_2018_Patent.c"
+    "file": "/mnt/e/GraduationDesign/code/test/test_tr_system.c"
   },
   {
     "arguments": [
       "/usr/lib/ccache/gcc",
       "-c",
-      "-I./vector",
       "-I./strand",
       "-I./sequencer",
+      "-I./tr_system",
+      "-I./KiteSTL/inc",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
-      "-I./2018-Patent",
-      "vector/vector.c"
-    ],
-    "directory": "/mnt/e/GraduationDesign/code",
-    "file": "/mnt/e/GraduationDesign/code/vector/vector.c"
-  },
-  {
-    "arguments": [
-      "/usr/lib/ccache/gcc",
-      "-c",
-      "-I./vector",
-      "-I./strand",
-      "-I./sequencer",
-      "-g",
-      "-fsanitize=address",
-      "-Wall",
-      "-Werror",
-      "-I./2018-Patent",
+      "-Wl,-rpath,./KiteSTL/lib",
       "strand/nucleotide.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
@@ -54,14 +39,15 @@
     "arguments": [
       "/usr/lib/ccache/gcc",
       "-c",
-      "-I./vector",
       "-I./strand",
       "-I./sequencer",
+      "-I./tr_system",
+      "-I./KiteSTL/inc",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
-      "-I./2018-Patent",
+      "-Wl,-rpath,./KiteSTL/lib",
       "strand/strand.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
@@ -71,14 +57,15 @@
     "arguments": [
       "/usr/lib/ccache/gcc",
       "-c",
-      "-I./vector",
       "-I./strand",
       "-I./sequencer",
+      "-I./tr_system",
+      "-I./KiteSTL/inc",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
-      "-I./2018-Patent",
+      "-Wl,-rpath,./KiteSTL/lib",
       "sequencer/read.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
@@ -88,14 +75,15 @@
     "arguments": [
       "/usr/lib/ccache/gcc",
       "-c",
-      "-I./vector",
       "-I./strand",
       "-I./sequencer",
+      "-I./tr_system",
+      "-I./KiteSTL/inc",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
-      "-I./2018-Patent",
+      "-Wl,-rpath,./KiteSTL/lib",
       "sequencer/sequencer.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
@@ -105,51 +93,54 @@
     "arguments": [
       "/usr/lib/ccache/gcc",
       "-c",
-      "-I./vector",
       "-I./strand",
       "-I./sequencer",
+      "-I./tr_system",
+      "-I./KiteSTL/inc",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
-      "-I./2018-Patent",
-      "2018-Patent/tr_read.c"
+      "-Wl,-rpath,./KiteSTL/lib",
+      "tr_system/tr_read.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
-    "file": "/mnt/e/GraduationDesign/code/2018-Patent/tr_read.c"
+    "file": "/mnt/e/GraduationDesign/code/tr_system/tr_read.c"
   },
   {
     "arguments": [
       "/usr/lib/ccache/gcc",
       "-c",
-      "-I./vector",
       "-I./strand",
       "-I./sequencer",
+      "-I./tr_system",
+      "-I./KiteSTL/inc",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
-      "-I./2018-Patent",
-      "2018-Patent/tr_system.c"
+      "-Wl,-rpath,./KiteSTL/lib",
+      "tr_system/tr_system.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
-    "file": "/mnt/e/GraduationDesign/code/2018-Patent/tr_system.c"
+    "file": "/mnt/e/GraduationDesign/code/tr_system/tr_system.c"
   },
   {
     "arguments": [
       "/usr/lib/ccache/gcc",
       "-c",
-      "-I./vector",
       "-I./strand",
       "-I./sequencer",
+      "-I./tr_system",
+      "-I./KiteSTL/inc",
       "-g",
       "-fsanitize=address",
       "-Wall",
       "-Werror",
-      "-I./2018-Patent",
-      "2018-Patent/tr_window.c"
+      "-Wl,-rpath,./KiteSTL/lib",
+      "tr_system/tr_window.c"
     ],
     "directory": "/mnt/e/GraduationDesign/code",
-    "file": "/mnt/e/GraduationDesign/code/2018-Patent/tr_window.c"
+    "file": "/mnt/e/GraduationDesign/code/tr_system/tr_window.c"
   }
 ]

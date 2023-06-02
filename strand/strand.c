@@ -5,7 +5,7 @@
 int         strand_size(Strand *);
 Nucleotide  strand_at(Strand *, int index);
 void        strand_push_back(Strand *, Nucleotide n);
-Nucleotide  strand_pop_back(Strand *);
+void        strand_pop_back(Strand *);
 void        strand_clear(Strand *);
 
 
@@ -20,22 +20,34 @@ Strand *new_strand() {
   s->clear = strand_clear;
 
 /* private */
-  s->_nucleotide = new_vector();
+  s->_nucleotides = new_vector(sizeof(Nucleotide));
 
   return s;
 }
 
 void free_strand(Strand *s) {
-  free_vector(s->_nucleotide);
+  free_vector(s->_nucleotides);
   free(s);
 }
 
-int compare_strand(Strand *sa, Strand *sb) {
-  return compare_vector(sa->_nucleotide, sb->_nucleotide);
+bool compare_strand(Strand *sa, Strand *sb) {
+  if (sa->size(sa) != sb->size(sb)) {
+    return false;
+  }
+
+  for (int i = 0; i < sa->size(sa); i++) {
+    if (sa->at(sa, i) != sb->at(sb, i)) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 void print_strand(Strand *s) {
-  printf("strand: ");
+  printf("strand:\n");
+
+  printf("  ");
   for (int i = 0; i < s->size(s); i++) {
     print_nucleotide(s->at(s, i));
   }
@@ -44,21 +56,21 @@ void print_strand(Strand *s) {
 
 
 int strand_size(Strand *s) {
-  return s->_nucleotide->size(s->_nucleotide);
+  return s->_nucleotides->size(s->_nucleotides);
 }
 
 Nucleotide strand_at(Strand *s, int index) {
-  return s->_nucleotide->at(s->_nucleotide, index);
+  return *(Nucleotide *)s->_nucleotides->at(s->_nucleotides, index);
 }
 
 void strand_push_back(Strand *s, Nucleotide n) {
-  s->_nucleotide->push_back(s->_nucleotide, n);
+  s->_nucleotides->push_back(s->_nucleotides, &n);
 }
 
-Nucleotide strand_pop_back(Strand *s) {
-  return s->_nucleotide->pop_back(s->_nucleotide);
+void strand_pop_back(Strand *s) {
+  s->_nucleotides->pop_back(s->_nucleotides);
 }
 
 void strand_clear(Strand *s) {
-  s->_nucleotide->clear(s->_nucleotide);
+  s->_nucleotides->clear(s->_nucleotides);
 }

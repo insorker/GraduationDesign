@@ -12,7 +12,7 @@ typedef struct TRWindow {
   Strand *(*get_consensus)(
       struct TRWindow *trw,
       TRRead *reads[],
-      int *reads_pcmp);
+      int *pcmp);
 
 } TRWindow;
 

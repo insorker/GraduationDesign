@@ -1,4 +1,4 @@
 #!/bin/zsh
 
 echo -n "lines: "
-find . -type f \( -name "*.c" -o -name "*.h" \) -exec wc -l {} + | awk '{total += $1} END{print total}'
+find . -not -path "./node_modules" -type f \( -name "*.c" -o -name "*.h" \) -exec wc -l {} + | awk '{total += $1} END{print total}'

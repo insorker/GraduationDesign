@@ -4,26 +4,14 @@
 void test_vector_push_pop_clear() {
   PRINT_TEST_FUNC();
 
-  Vector *vec = new_vector();
+  vector_t *vec = new_vector(sizeof(int));
 
-  vec->push_back(vec, 1);
-  printf("%d\n", vec->at(vec, 0));
-  printf("%d\n", vec->pop_back(vec));
-
-  for (int i = 0; i < 100; i++) {
-    vec->push_back(vec, i);
-  }
-  for (int i = 0; i < 100; i++) {
-    printf("%d ", vec->at(vec, i));
-  }
-  printf("\n");
-  printf("%d\n", vec->size(vec));
-  vec->clear(vec);
-  printf("%d\n", vec->size(vec));
+  vec->push_back(vec, &(int){1});
+  printf("%d\n", *(int *)vec->at(vec, 0));
 
   free_vector(vec);
 
-  printf("\n");
+  PRINT_TEST_FUNC();
 }
 
 int main() {

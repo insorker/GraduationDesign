@@ -23,12 +23,15 @@ Strand *test_create_strand() {
   return s;
 }
 
-void test_create() {
+void test_create(SequencerErrorRate ser) {
   PRINT_TEST_FUNC();
 
-  Sequencer *seq = new_sequencer(ser_null);
+  Sequencer *seq = new_sequencer(ser);
   Strand *s = test_create_strand();
-  Read *read = seq->process(seq, s);
+
+  seq->set_strand(seq, s);
+
+  Read *read = seq->process(seq);
 
   printf("- "), print_strand(s);
   print_read(read);
@@ -37,75 +40,30 @@ void test_create() {
   free_strand(s);
   free_sequencer(seq);
 
-  printf("\n");
+  PRINT_TEST_FUNC();
 }
 
-void test_create_sm() {
-  PRINT_TEST_FUNC();
-
+void test_anchor() {
   Sequencer *seq = new_sequencer(ser_sm);
   Strand *s = test_create_strand();
-  Read *read = seq->process(seq, s);
+  vector_t *anchor = new_vector(sizeof(double));
+
+  anchor->push_back(anchor, &(double){0.1});
+  anchor->push_back(anchor, &(double){0.4});
+  anchor->push_back(anchor, &(double){0.5});
+
+  seq->set_strand(seq, s);
+  seq->set_anchor(seq, anchor);
+
+  Read *read = seq->process(seq);
 
   printf("- "), print_strand(s);
   print_read(read);
 
   free_read(read);
   free_strand(s);
+  free_vector(anchor);
   free_sequencer(seq);
-
-  printf("\n");
-}
-
-void test_create_mid() {
-  PRINT_TEST_FUNC();
-
-  Sequencer *seq = new_sequencer(ser_mid);
-  Strand *s = test_create_strand();
-  Read *read = seq->process(seq, s);
-
-  printf("- "), print_strand(s);
-  print_read(read);
-
-  free_read(read);
-  free_strand(s);
-  free_sequencer(seq);
-
-  printf("\n");
-}
-
-void test_create_lg() {
-  PRINT_TEST_FUNC();
-
-  Sequencer *seq = new_sequencer(ser_lg);
-  Strand *s = test_create_strand();
-  Read *read = seq->process(seq, s);
-
-  printf("- "), print_strand(s);
-  print_read(read);
-
-  free_read(read);
-  free_strand(s);
-  free_sequencer(seq);
-
-  printf("\n");
-}
-
-void test_create_full() {
-  PRINT_TEST_FUNC();
-
-  Sequencer *seq = new_sequencer(ser_full);
-  Strand *s = test_create_strand();
-  Read *read = seq->process(seq, s);
-
-  printf("- "), print_strand(s);
-  print_read(read);
-
-  free_read(read);
-  free_strand(s);
-  free_sequencer(seq);
-
-  printf("\n");
 }
 
 int main() {
@@ -113,9 +71,11 @@ int main() {
 
   srand((unsigned int)time(NULL));
 
-  test_create();
-  test_create_sm();
-  test_create_mid();
-  test_create_lg();
-  test_create_full();
+  test_create(ser_null);
+  test_create(ser_sm);
+  test_create(ser_mid);
+  test_create(ser_lg);
+  test_create(ser_full);
+
+  test_anchor();
 }

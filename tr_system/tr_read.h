@@ -4,9 +4,10 @@
 #include "read.h"
 
 typedef enum TRReadState {
-  TR_READ_STATE_CREDIBLE,
+  TR_READ_STATE_ACTIVE,
+  TR_READ_STATE_INACTIVE,
   TR_READ_STATE_VARIANT,
-  TR_READ_STATE_OMMITED
+  TR_READ_STATE_OMITTED
 } TRReadState;
 
 typedef struct TRRead {
@@ -17,7 +18,7 @@ typedef struct TRRead {
   int         (*size)(struct TRRead *);
   Nucleotide  (*at)(struct TRRead *, int index);
   void        (*push_back)(struct TRRead *, Nucleotide);
-  Nucleotide  (*pop_back)(struct TRRead *);
+  void        (*pop_back)(struct TRRead *);
   void        (*clear)(struct TRRead *);
 
 /* public */
@@ -26,8 +27,10 @@ typedef struct TRRead {
 } TRRead;
 
 TRRead *new_tr_read();
-void free_tr_read(TRRead *);
 void copy_tr_read(TRRead *, Read *);
+void free_tr_read(TRRead *);
+
 void print_tr_read(TRRead *);
+void print_tr_read_state(TRRead *);
 
 #endif

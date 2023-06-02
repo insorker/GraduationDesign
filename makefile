@@ -1,46 +1,53 @@
-SRC_DIRS:=vector strand sequencer
-INC_DIRS:=-I./vector -I./strand -I./sequencer
+SRC_DIRS = strand sequencer tr_system
+INC_DIRS = $(patsubst %, -I./%, ${SRC_DIRS}) -I./KiteSTL/inc
 
-CC:=gcc
-CFLAGS:=${INC_DIRS} -g -fsanitize=address -Wall -Werror
-SOURCES:=$(foreach dir, $(SRC_DIRS), $(wildcard $(dir)/*.c))
+CC 			= gcc
+CFLAGS 	= ${INC_DIRS} -g -fsanitize=address -Wall -Werror
+LDFLAGS = -Wl,-rpath,./KiteSTL/lib -L./KiteSTL/lib
+LDLIBS  = -lKiteSTL
+SOURCES = $(foreach dir, $(SRC_DIRS), $(wildcard $(dir)/*.c))
 
-SRC_DIRS_2018_Patent:=2018-Patent
-SRC_DIRS_2020_Biorxiv:=2020_Biorxiv
-SRC_DIRS_2020_Patent:=2020-Patent
-INC_DIRS_2018_Patent:=-I./2018-Patent
-INC_DIRS_2020_Biorxiv:=-I./2020_Biorxiv
-INC_DIRS_2020_Patent:=-I./2020-Patent
-SOURCES_2018_Patent:=$(foreach dir, $(SRC_DIRS_2018_Patent), $(wildcard $(dir)/*.c))
-SOURCES_2020_Biorxiv:=$(foreach dir, $(SRC_DIRS_2020_Biorxiv), $(wildcard $(dir)/*.c))
-SOURCES_2020_Patent:=$(foreach dir, $(SRC_DIRS_2020_Patent), $(wildcard $(dir)/*.c))
+SOURCES_2018_Patent  = $(foreach dir, $(2018_Patent), $(wildcard $(dir)/*.c))
+SOURCES_2020_Patent	 = $(foreach dir, $(2020_Patent), $(wildcard $(dir)/*.c))
+
+.PHONY: all test clean
 
 all: test
 
-test: test_vector test_strand test_sequencer test_2018
+test: test_vector test_strand test_sequencer test_tr_system_normal
 
 test_vector:
-	${CC} ${CFLAGS} test/test_vector.c ${SOURCES}
+	${CC} ${CFLAGS} test/test_vector.c ${SOURCES} ${LDFLAGS} ${LDLIBS}
 
 test_strand:
-	${CC} ${CFLAGS} test/test_strand.c ${SOURCES}
+	${CC} ${CFLAGS} test/test_strand.c ${SOURCES} ${LDFLAGS} ${LDLIBS}
 
 test_sequencer:
-	${CC} ${CFLAGS} test/test_sequencer.c ${SOURCES}
+	${CC} ${CFLAGS} test/test_sequencer.c ${SOURCES} ${LDFLAGS} ${LDLIBS}
 
-test_2018:
-	${CC} ${CFLAGS} test/test_2018_Patent.c ${SOURCES} ${INC_DIRS_2018_Patent} ${SOURCES_2018_Patent}
+test_tr_system_normal:
+	${CC} ${CFLAGS} test/test_tr_system.c ${SOURCES} ${LDFLAGS} ${LDLIBS} -DTR_NORMAL=1
 
-test_2020:
-	${CC} ${CFLAGS} test/test_2020_Patent.c ${SOURCES} ${INC_DIRS_2020_Patent} ${SOURCES_2020_Patent}
+test_tr_system_indeterminant:
+	${CC} ${CFLAGS} test/test_tr_system.c ${SOURCES} ${LDFLAGS} ${LDLIBS} -DTR_NORMAL=0 -DTR_INDETERMINATED=1 -DTR_ALIGNMENT=0
 
-testbench: edit_distance
+test_tr_system_alignment:
+	${CC} ${CFLAGS} test/test_tr_system.c ${SOURCES} ${LDFLAGS} ${LDLIBS} -DTR_NORMAL=0 -DTR_INDETERMINATED=0 -DTR_ALIGNMENT=1
 
-edit_distance_18:
-	${CC} ${CFLAGS} testbench/edit_distance.c ${SOURCES} ${INC_DIRS_2018_Patent} ${SOURCES_2018_Patent}
+test_tr_system_indeterminant_alignment:
+	${CC} ${CFLAGS} test/test_tr_system.c ${SOURCES} ${LDFLAGS} ${LDLIBS} -DTR_NORMAL=0 -DTR_INDETERMINATED=1 -DTR_ALIGNMENT=1
 
-edit_distance_20:
-	${CC} ${CFLAGS} testbench/edit_distance.c ${SOURCES} ${INC_DIRS_2020_Patent} ${SOURCES_2020_Patent}
+test_edit_distance_3:
+	${CC} ${CFLAGS} test/test_edit_distance_3.c ${SOURCES} ${LDFLAGS} ${LDLIBS} -DTR_NORMAL=1
+
+test_edit_distance_41:
+	${CC} ${CFLAGS} test/test_edit_distance_4.c ${SOURCES} ${LDFLAGS} ${LDLIBS} -DTR_NORMAL=0 -DTR_INDETERMINATED=1 -DTR_ALIGNMENT=0
+
+test_edit_distance_42:
+	${CC} ${CFLAGS} test/test_edit_distance_4.c ${SOURCES} ${LDFLAGS} ${LDLIBS} -DTR_NORMAL=0 -DTR_INDETERMINATED=0 -DTR_ALIGNMENT=1
+
+test_edit_distance_43:
+	${CC} ${CFLAGS} test/test_edit_distance_4.c ${SOURCES} ${LDFLAGS} ${LDLIBS} -DTR_NORMAL=0 -DTR_INDETERMINATED=1 -DTR_ALIGNMENT=1
 
 clean:
 	rm -f *.out

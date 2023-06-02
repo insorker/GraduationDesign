@@ -6,7 +6,7 @@
 int           read_size(Read *);
 Nucleotide    read_at(Read *, int index);
 void          read_push_back(Read *, Nucleotide);
-Nucleotide    read_pop_back(Read *);
+void          read_pop_back(Read *);
 void          read_clear(Read *);
 
 
@@ -24,7 +24,8 @@ Read *new_read() {
   read->clear = read_clear;
 
 /* public */
-  read->error = new_vector();
+  read->error = new_vector(sizeof(ReadErrorType));
+  read->anchor = new_vector(sizeof(int));
 
   return read;
 }
@@ -45,26 +46,45 @@ Read *copy_read(Read *read) {
 void free_read(Read *read) {
   free_strand(read->super);
   free_vector(read->error);
+  free_vector(read->anchor);
   free(read);
 }
 
 void print_read(Read *read) {
   printf("Read:\n");
-  printf("- "), print_strand(read->super);
-  printf("- "), print_read_error(read);
+
+  printf("  ");
+  for (int i = 0; i < read->size(read); i++) {
+    print_nucleotide(read->at(read, i));
+  }
+  printf("\n");
+
+  printf("  "), print_read_error(read);
+
+  printf("  "), print_read_anchor(read);
 }
 
 void print_read_error(Read *read) {
-  Vector *error = read->error;
+  vector_t *error = read->error;
 
   printf("error: ");
   for (int i = 0; i < error->size(error); i++) {
-    switch (error->at(error, i)) {
+    switch (*(int *)error->at(error, i)) {
       case READ_ERROR_NONE: printf("n"); break;
       case READ_ERROR_SUB:  printf("s"); break;
       case READ_ERROR_DEL:  printf("d"); break;
       case READ_ERROR_INS:  printf("i"); break;
     }
+  }
+  printf("\n");
+}
+
+void print_read_anchor(Read *read) {
+  vector_t *anchor = read->anchor;
+
+  printf("anchor: ");
+  for (int i = 0; i < anchor->size(anchor); i++) {
+    printf("%d ", *(int *)anchor->at(anchor, i));
   }
   printf("\n");
 }
@@ -82,7 +102,7 @@ void read_push_back(Read *read, Nucleotide n) {
   read->super->push_back(read->super, n);
 }
 
-Nucleotide read_pop_back(Read *read) {
+void read_pop_back(Read *read) {
   return read->super->pop_back(read->super);
 }
 

@@ -4,7 +4,7 @@
 Strand *tr_window_get_consensus(
     TRWindow *trw,
     TRRead *reads[],
-    int *reads_pcmp);
+    int *pcmp);
 
 Nucleotide *tr_window_new_consensus(TRWindow *);
 
@@ -27,7 +27,7 @@ void free_tr_window(TRWindow *trw) {
 Strand *tr_window_get_consensus(
     TRWindow *trw,
     TRRead *reads[],
-    int *reads_pcmp)
+    int *pcmp)
 {
   Strand *consensus = new_strand();
 
@@ -37,9 +37,9 @@ Strand *tr_window_get_consensus(
     Nucleotide weight_max = 0;
 
     for (int j = 0; j < trw->nrow; j++) {
-      int p = reads_pcmp[j] + 1 + i;
+      int p = pcmp[j] + 1 + i;
 
-      if (reads[j]->state == TR_READ_STATE_CREDIBLE) {
+      if (reads[j]->state == TR_READ_STATE_ACTIVE) {
         if (reads[j]->size(reads[j]) <= p) {
           weight[NUCLEOTIDE_N]++;
         }

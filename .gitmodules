@@ -1,0 +1,3 @@
+[submodule "KiteSTL"]
+	path = KiteSTL
+	url = git@github.com:insorker/KiteSTL.git
