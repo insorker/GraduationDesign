@@ -5,7 +5,7 @@
 #include <time.h>
 
 #define WIDTH 2
-#define TYPE  0
+#define TYPE  3
 #define TIMES 100
 #define MAX_RATE 15
 vector_t *anchor;
@@ -18,9 +18,9 @@ int main() {
   PRINT_TEST_FILE();
 
   anchor = new_vector(sizeof(double));
-  anchor->push_back(anchor, &(double){0.1});
-  anchor->push_back(anchor, &(double){0.2});
-  anchor->push_back(anchor, &(double){0.9});
+  anchor->push_back(anchor, &(double){0.5});
+  // anchor->push_back(anchor, &(double){0.2});
+  // anchor->push_back(anchor, &(double){0.9});
 
   srand((unsigned int)time(NULL));
 
@@ -136,7 +136,7 @@ void test_tr_system_consensus() {
   }
 
   for (int i = 1; i <= MAX_RATE; i++) {
-    printf("%f ", (double)result[i] / TIMES);
+    printf("%f\n", (100 - (double)result[i] / TIMES) / 100);
   }
 
   free_sequencer(seq);

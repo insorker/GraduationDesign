@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define WIDTH 2
+#define WIDTH 5
 #define TYPE  0
 #define TIMES 100
 #define MAX_RATE 15
@@ -132,7 +132,7 @@ void test_tr_system_consensus() {
   }
 
   for (int i = 1; i <= MAX_RATE; i++) {
-    printf("%f ", (double)result[i] / TIMES);
+    printf("%f\n", (100 - (double)result[i] / TIMES) / 100);
   }
 
   free_sequencer(seq);
